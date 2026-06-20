@@ -45,13 +45,17 @@
       position: fixed; top:0; left:0; right:0; z-index:1000;
       padding: 1.4rem 2.5rem;
       display: flex; align-items:center; justify-content:space-between;
-      transition: background .35s ease, padding .35s ease, border-color .35s ease; flex-wrap:wrap;
+      transition: padding .35s ease; flex-wrap:wrap;
     }
-    nav.scrolled {
+    nav::before {
+      content: ''; position:absolute; inset:0; z-index:-1;
       background: rgba(8,12,24,.97);
-      padding: .9rem 2.5rem;
       border-bottom: 1px solid rgba(201,168,76,.15);
+      opacity: 0;
+      transition: opacity .35s ease;
     }
+    nav.scrolled { padding: .9rem 2.5rem; }
+    nav.scrolled::before { opacity: 1; }
     .nav-brand {
       display: flex; align-items:center; gap:.75rem; text-decoration:none;
     }
