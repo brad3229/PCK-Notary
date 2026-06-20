@@ -4,8 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>PCK Notary & Doc. Services, LLC | Professional Notary Services</title>
+  <meta name="description" content="PCK Notary & Doc. Services, LLC — Professional, convenient, and knowledgeable mobile notary services available 24/7 in Butts County, GA and surrounding areas." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     /* ===== RESET & VARIABLES ===== */
     :root {
@@ -104,6 +106,7 @@
     }
     #hero-canvas {
       position:absolute; inset:0; width:100%; height:100%;
+      will-change: transform;
     }
     .hero-glow {
       position:absolute; inset:0;
@@ -721,7 +724,7 @@
   <div class="container">
     <div class="about-wrap">
       <div class="about-img-box reveal-l">
-        <img src="paul.jpeg" alt="Paul Charles Krusko II — Owner, PCK Notary" class="about-photo" />
+        <img src="paul.jpeg" alt="Paul Charles Krusko II — Owner, PCK Notary" class="about-photo" loading="lazy" decoding="async" />
         <div class="corner-dec"></div>
         <div class="corner-dec2"></div>
       </div>
@@ -900,11 +903,18 @@
 <script>
 /* ===== NAV SCROLL ===== */
 const nav = document.getElementById('nav');
+let ticking = false;
 window.addEventListener('scroll', () => {
-  nav.classList.toggle('scrolled', window.scrollY > 60);
-  if (navMenu.classList.contains('open')) {
-    hamburger.classList.remove('open');
-    navMenu.classList.remove('open');
+  if (!ticking) {
+    requestAnimationFrame(() => {
+      nav.classList.toggle('scrolled', window.scrollY > 60);
+      if (navMenu.classList.contains('open')) {
+        hamburger.classList.remove('open');
+        navMenu.classList.remove('open');
+      }
+      ticking = false;
+    });
+    ticking = true;
   }
 }, { passive: true });
 
