@@ -425,6 +425,22 @@
     .check-lbl { display:flex; align-items:center; gap:.75rem; cursor:pointer; }
     .check-lbl input[type=checkbox] { width:17px; height:17px; accent-color:var(--gold); cursor:pointer; }
     .check-lbl span { font-size:.88rem; color:var(--g300); }
+    .form-ctrl[type="date"],
+    .form-ctrl[type="time"] {
+      color-scheme: dark;
+      cursor: pointer;
+    }
+    .scheduler-divider {
+      display:flex; align-items:center; gap:1rem; margin:1.5rem 0 1.2rem;
+    }
+    .scheduler-divider::before,
+    .scheduler-divider::after {
+      content:''; flex:1; height:1px; background:rgba(255,255,255,.08);
+    }
+    .scheduler-divider span {
+      font-size:.72rem; color:var(--gold); font-weight:600;
+      letter-spacing:.1em; text-transform:uppercase; white-space:nowrap;
+    }
     .form-submit {
       width:100%; background:var(--gold); color:var(--bg);
       border:none; padding:1rem; border-radius:8px;
@@ -857,6 +873,37 @@
               </div>
               <span class="form-error-msg" id="serviceErr">Please select at least one service.</span>
             </div>
+            <div class="scheduler-divider"><span>Preferred Appointment</span></div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-lbl">Preferred Date</label>
+                <input type="date" class="form-ctrl" id="apptDate" />
+              </div>
+              <div class="form-group">
+                <label class="form-lbl">Preferred Time</label>
+                <select class="form-ctrl" id="apptTime">
+                  <option value="" disabled selected>Select a time</option>
+                  <option>8:00 AM</option>
+                  <option>9:00 AM</option>
+                  <option>10:00 AM</option>
+                  <option>11:00 AM</option>
+                  <option>12:00 PM</option>
+                  <option>1:00 PM</option>
+                  <option>2:00 PM</option>
+                  <option>3:00 PM</option>
+                  <option>4:00 PM</option>
+                  <option>5:00 PM</option>
+                  <option>6:00 PM</option>
+                  <option>7:00 PM</option>
+                  <option>8:00 PM</option>
+                  <option>9:00 PM</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-lbl">Appointment Location</label>
+              <input type="text" class="form-ctrl" id="apptLocation" placeholder="Address or city where you need the notary" />
+            </div>
             <div class="form-group">
               <label class="form-lbl">Additional Details</label>
               <textarea class="form-ctrl" placeholder="Tell us more about your needs..."></textarea>
@@ -1077,6 +1124,10 @@ document.getElementById('contactForm').addEventListener('submit', function(e) {
     document.getElementById('formSuccess').style.display = 'block';
   }
 });
+
+/* Set date min to today */
+const apptDate = document.getElementById('apptDate');
+if (apptDate) apptDate.min = new Date().toISOString().split('T')[0];
 
 /* Clear error styling on input */
 ['nameInput','phoneInput','contactMethodInput'].forEach(id => {
