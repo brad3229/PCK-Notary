@@ -43,12 +43,10 @@
       position: fixed; top:0; left:0; right:0; z-index:1000;
       padding: 1.4rem 2.5rem;
       display: flex; align-items:center; justify-content:space-between;
-      transition: all .35s ease; flex-wrap:wrap;
+      transition: background .35s ease, padding .35s ease, border-color .35s ease; flex-wrap:wrap;
     }
     nav.scrolled {
-      background: rgba(8,12,24,.92);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
+      background: rgba(8,12,24,.97);
       padding: .9rem 2.5rem;
       border-bottom: 1px solid rgba(201,168,76,.15);
     }
@@ -509,7 +507,6 @@
       .nav-menu {
         position:absolute; top:100%; left:0; right:0;
         background:rgba(8,12,24,.97);
-        backdrop-filter:blur(24px); -webkit-backdrop-filter:blur(24px);
         flex-direction:column; align-items:flex-start;
         gap:0; padding:0;
         max-height:0; overflow:hidden;
