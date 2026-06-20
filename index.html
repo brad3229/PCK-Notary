@@ -414,6 +414,9 @@
     .form-ctrl option { background:var(--bg2); color:var(--white); }
     textarea.form-ctrl { resize:vertical; min-height:110px; }
     .form-note { font-size:.76rem; color:var(--g400); font-style:italic; margin-bottom:1.2rem; }
+    .form-ctrl.error { border-color:#e05252; box-shadow:0 0 0 3px rgba(224,82,82,.12); }
+    .form-error-msg { font-size:.75rem; color:#e05252; margin-top:.35rem; display:none; }
+    .form-error-msg.show { display:block; }
     .checks { display:flex; flex-direction:column; gap:.55rem; }
     .check-lbl { display:flex; align-items:center; gap:.75rem; cursor:pointer; }
     .check-lbl input[type=checkbox] { width:17px; height:17px; accent-color:var(--gold); cursor:pointer; }
@@ -796,15 +799,17 @@
 
       <div class="form-card reveal-r">
         <div id="formWrap">
-          <form id="contactForm" novalidate>
+          <form id="contactForm">
             <div class="form-row">
               <div class="form-group">
                 <label class="form-lbl">Name <span class="req">*</span></label>
-                <input type="text" class="form-ctrl" placeholder="Your full name" required />
+                <input type="text" class="form-ctrl" id="nameInput" placeholder="Your full name" required />
+                <span class="form-error-msg" id="nameErr">Please enter your name.</span>
               </div>
               <div class="form-group">
                 <label class="form-lbl">Phone <span class="req">*</span></label>
-                <input type="tel" class="form-ctrl" placeholder="(000) 000-0000" required />
+                <input type="tel" class="form-ctrl" id="phoneInput" placeholder="(000) 000-0000" required />
+                <span class="form-error-msg" id="phoneErr">Please enter your phone number.</span>
               </div>
             </div>
             <div class="form-group">
@@ -825,12 +830,13 @@
             </div>
             <div class="form-group">
               <label class="form-lbl">How Should We Contact You? <span class="req">*</span></label>
-              <select class="form-ctrl" required>
+              <select class="form-ctrl" id="contactMethodInput" required>
                 <option value="" disabled selected>Select one option</option>
                 <option>Phone Call</option>
                 <option>Text Message</option>
                 <option>Email</option>
               </select>
+              <span class="form-error-msg" id="contactMethodErr">Please select a contact method.</span>
             </div>
             <p class="form-note">Text message rates may apply depending on your mobile carrier.<br>All methods of contact will be between 8:00 AM – 9:00 PM Est.</p>
             <div class="form-group">
@@ -845,6 +851,7 @@
                   <span>Other</span>
                 </label>
               </div>
+              <span class="form-error-msg" id="serviceErr">Please select at least one service.</span>
             </div>
             <div class="form-group">
               <label class="form-lbl">Additional Details</label>
@@ -1024,11 +1031,53 @@ const io = new IntersectionObserver(entries => {
 }, { threshold: .1, rootMargin: '0px 0px -48px 0px' });
 revealEls.forEach(el => io.observe(el));
 
+/* ===== PHONE FORMAT ===== */
+document.getElementById('phoneInput').addEventListener('input', function(e) {
+  const digits = e.target.value.replace(/\D/g, '').slice(0, 10);
+  let formatted = '';
+  if (digits.length > 0) formatted = '(' + digits.slice(0, 3);
+  if (digits.length >= 4) formatted += ') ' + digits.slice(3, 6);
+  if (digits.length >= 7) formatted += '-' + digits.slice(6, 10);
+  e.target.value = formatted;
+});
+
 /* ===== FORM ===== */
+function setError(inputId, errId, show) {
+  const input = document.getElementById(inputId);
+  const err   = document.getElementById(errId);
+  if (input)  input.classList.toggle('error', show);
+  if (err)    err.classList.toggle('show', show);
+}
+
 document.getElementById('contactForm').addEventListener('submit', function(e) {
   e.preventDefault();
-  document.getElementById('formWrap').style.display = 'none';
-  document.getElementById('formSuccess').style.display = 'block';
+  let valid = true;
+
+  const name    = document.getElementById('nameInput').value.trim();
+  const phone   = document.getElementById('phoneInput').value.replace(/\D/g, '');
+  const method  = document.getElementById('contactMethodInput').value;
+  const services = document.querySelectorAll('input[name="service"]:checked');
+
+  setError('nameInput',          'nameErr',          !name);
+  setError('phoneInput',         'phoneErr',         phone.length < 10);
+  setError('contactMethodInput', 'contactMethodErr', !method);
+
+  const noService = services.length === 0;
+  document.getElementById('serviceErr').classList.toggle('show', noService);
+  if (noService) valid = false;
+
+  if (!name || phone.length < 10 || !method) valid = false;
+
+  if (valid) {
+    document.getElementById('formWrap').style.display = 'none';
+    document.getElementById('formSuccess').style.display = 'block';
+  }
+});
+
+/* Clear error styling on input */
+['nameInput','phoneInput','contactMethodInput'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) el.addEventListener('input', () => el.classList.remove('error'));
 });
 </script>
 </body>
