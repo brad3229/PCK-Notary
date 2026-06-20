@@ -60,13 +60,11 @@
       display: flex; align-items:center; gap:.75rem; text-decoration:none;
     }
     .nav-seal {
-      width:42px; height:42px; border:2px solid var(--gold); border-radius:50%;
+      width:48px; height:48px;
       display:flex; align-items:center; justify-content:center;
-      font-family:'Playfair Display',serif; font-weight:700; font-size:.7rem;
-      color:var(--gold); letter-spacing:.06em;
       transition: all .3s ease;
     }
-    nav.scrolled .nav-seal { background: rgba(201,168,76,.08); }
+    .nav-seal img { width:100%; height:100%; object-fit:contain; }
     .nav-name { font-weight:600; font-size:.95rem; letter-spacing:.04em; }
     .nav-name em { color:var(--gold); font-style:normal; }
 
@@ -471,11 +469,10 @@
     }
     .foot-brand { display:flex; align-items:center; gap:.75rem; }
     .foot-seal {
-      width:40px; height:40px; border:2px solid var(--gold); border-radius:50%;
+      width:48px; height:48px;
       display:flex; align-items:center; justify-content:center;
-      font-family:'Playfair Display',serif; font-weight:700; font-size:.68rem;
-      color:var(--gold);
     }
+    .foot-seal img { width:100%; height:100%; object-fit:contain; }
     .foot-name { font-family:'Playfair Display',serif; font-weight:600; font-size:.97rem; }
     .foot-tag { font-size:.72rem; color:var(--g400); margin-top:.1rem; }
     .foot-links { display:flex; gap:2rem; list-style:none; }
@@ -561,7 +558,7 @@
 <!-- ===== NAV ===== -->
 <nav id="nav">
   <a href="#hero" class="nav-brand">
-    <div class="nav-seal">PCK</div>
+    <div class="nav-seal"><img src="pck_notary_logo_transparent.png" alt="PCK Notary Logo" /></div>
     <div class="nav-name"><em>PCK Notary</em></div>
   </a>
   <ul class="nav-menu" id="navMenu">
@@ -925,7 +922,7 @@
 <footer>
   <div class="foot-inner">
     <div class="foot-brand">
-      <div class="foot-seal">PCK</div>
+      <div class="foot-seal"><img src="pck_notary_logo_transparent.png" alt="PCK Notary Logo" loading="lazy" /></div>
       <div>
         <div class="foot-name">PCK Notary &amp; Doc. Services, LLC</div>
         <div class="foot-tag">Professional · Convenient · Knowledgeable</div>
