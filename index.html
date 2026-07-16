@@ -1187,6 +1187,30 @@ document.getElementById('contactForm').addEventListener('submit', function(e) {
   if (!name || phone.length < 10 || !method) valid = false;
 
   if (valid) {
+    const email      = document.getElementById('contactForm').querySelector('input[type="email"]').value.trim();
+    const county     = document.getElementById('contactForm').querySelector('select').value;
+    const serviceList = Array.from(services).map(s => s.value).join(', ');
+    const date       = document.getElementById('apptDate').value;
+    const time       = document.getElementById('apptTime').value;
+    const location   = document.getElementById('apptLocation').value.trim();
+    const details    = document.getElementById('contactForm').querySelector('textarea').value.trim();
+
+    const subject = encodeURIComponent('New Notary Request from ' + name);
+    const body = encodeURIComponent(
+      'Name: ' + name + '\n' +
+      'Phone: ' + document.getElementById('phoneInput').value + '\n' +
+      (email    ? 'Email: ' + email + '\n' : '') +
+      (county   ? 'County: ' + county + '\n' : '') +
+      'Preferred Contact: ' + method + '\n' +
+      'Service Needed: ' + serviceList + '\n' +
+      (date     ? 'Preferred Date: ' + date + '\n' : '') +
+      (time     ? 'Preferred Time: ' + time + '\n' : '') +
+      (location ? 'Appointment Location: ' + location + '\n' : '') +
+      (details  ? '\nAdditional Details:\n' + details : '')
+    );
+
+    window.location.href = 'mailto:Propcaspro@outlook.com?subject=' + subject + '&body=' + body;
+
     document.getElementById('formWrap').style.display = 'none';
     document.getElementById('formSuccess').style.display = 'block';
   }
